@@ -1,21 +1,44 @@
-const nodemailer = require("nodemailer")
+/**
+ * Custom mail transporter using Brevo's HTTP API.
+ * This avoids Render's outbound SMTP port blocking (ports 25, 465, 587).
+ */
+const sendMail = async ({ from, to, subject, html }) => {
+    const url = "https://api.brevo.com/v3/smtp/email";
+    const apiKey = process.env.BREVO_SMTP_KEY;
 
-const transporter = nodemailer.createTransport({
-    host: "smtp-relay.brevo.com",
-    port: 587,
-    secure: false,
-    auth: {
-        user: process.env.BREVO_EMAIL,
-        pass: process.env.BREVO_SMTP_KEY
-    },
-    // connection timeouts to fail fast instead of hanging
-    connectionTimeout: 10000,
-    greetingTimeout: 10000,
-    socketTimeout: 10000,
-    // allow TLS (STARTTLS) but avoid failures from strict cert checks in some environments
-    tls: {
-        rejectUnauthorized: false
+    if (!apiKey) {
+        throw new Error("BREVO_SMTP_KEY environment variable is not defined");
     }
-})
 
-module.exports = transporter
+    const payload = {
+        sender: { email: from || process.env.BREVO_EMAIL },
+        to: [{ email: to }],
+        subject: subject,
+        htmlContent: html
+    };
+
+    const response = await fetch(url, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "api-key": apiKey
+        },
+        body: JSON.stringify(payload)
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+        throw new Error(`Brevo API responded with status ${response.status}: ${JSON.stringify(data)}`);
+    }
+
+    // Return the response in a shape compatible with nodemailer's expectations in auth.service.js
+    return {
+        accepted: [to],
+        messageId: data.messageId
+    };
+};
+
+module.exports = {
+    sendMail
+};
