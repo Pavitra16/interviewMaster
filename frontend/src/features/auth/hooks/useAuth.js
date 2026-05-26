@@ -87,7 +87,7 @@ export const useAuth = () =>{
             if(data.data.success){
                 return{
                     success:true,
-                    message:data.message
+                    message:data.data.message
                 }
             }
             
