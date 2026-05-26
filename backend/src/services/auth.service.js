@@ -16,13 +16,16 @@ async function sendResetLink({email}){
                 const resetLink =`${process.env.FRONTEND_URL}/reset-password?token=${resetToken}`
 
                 console.log(resetLink)
-                const mail = await transporter.sendMail({
-                    from: process.env.EMAIL_USER,
-                    to: email,
-                    subject: "Password reset link",
-                    text: `Click the following link to reset your password: ${resetLink}`,
-                    html: `<p>Click the following link to reset your password:</p><a href="${resetLink}">${resetLink}</a>`
-                })
+                await transporter.sendMail({
+    from: process.env.BREVO_EMAIL,
+    to: email,
+    subject: "Reset Password",
+    html: `
+        <h2>Password Reset</h2>
+        <p>Click below to reset password:</p>
+        <a href="${resetLink}">Reset Password</a>
+    `
+})
 
                 if(mail.accepted.length > 0){
                     console.log("Email sent successfully")
