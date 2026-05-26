@@ -13,7 +13,8 @@ async function sendResetLink({email}){
                     {expiresIn:"10m"}
 
                 )
-                const resetLink = `http://localhost:5173/reset-password?token=${resetToken}`
+                const resetLink =`${process.env.FRONTEND_URL}/reset-password?token=${resetToken}`
+
                 console.log(resetLink)
                 const mail = await transporter.sendMail({
                     from: process.env.EMAIL_USER,
