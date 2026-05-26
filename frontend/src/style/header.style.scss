@@ -1,0 +1,67 @@
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  width: 100%;
+  background-color: rgba(13, 17, 23, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid #2a3348;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+
+  &__logo {
+    font-size: 1.35rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    background: linear-gradient(135deg, #e6edf3 30%, #ff2d78 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-decoration: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+
+    &::before {
+      content: '⚡';
+    }
+  }
+
+  &__nav {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  &__link {
+    color: #7d8590;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: color 0.2s;
+
+    &:hover, &--active {
+      color: #e6edf3;
+    }
+
+    &--profile {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      color: #ff2d78;
+      background-color: rgba(255, 45, 120, 0.1);
+      border: 1px solid rgba(255, 45, 120, 0.25);
+      padding: 0.35rem 0.75rem;
+      border-radius: 2rem;
+      font-weight: 600;
+
+      &:hover {
+        background-color: rgba(255, 45, 120, 0.15);
+        color: #ff2d78;
+      }
+    }
+  }
+}
