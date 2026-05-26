@@ -21,7 +21,7 @@ async function sendResetLink({email}){
 
                 console.log(resetLink)
                 const mail = await transporter.sendMail({
-                    from: process.env.BREVO_EMAIL,
+                    from: process.env.GMAIL_USER,
                     to: email,
                     subject: "Reset Password",
                     html: `
