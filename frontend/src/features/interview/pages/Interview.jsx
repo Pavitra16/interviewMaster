@@ -165,12 +165,12 @@ const Interview = () => {
 
                         </div>
 
-                        <button
+                        {/* <button
                             onClick={() => getResumePdf(interviewId)}
                             className='button primary-button'
                         >
                             Download Resume
-                        </button>
+                        </button> */}
 
                     </nav>
 
